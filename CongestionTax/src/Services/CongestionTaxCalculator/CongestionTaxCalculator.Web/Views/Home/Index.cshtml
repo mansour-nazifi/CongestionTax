@@ -1,0 +1,51 @@
+﻿@model CongestionTaxCalculator.Application.TaxCalculator.Queries.GetTax.GetTaxDTO
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form asp-controller="Home" asp-action="Index" method="get">
+    <fieldset>
+        <div>
+            <label>Vehicles</label>
+            <select class="form-control" asp-for="Vehicle" asp-items="@(new SelectList(Model.Vehicles, "Name", "Name"))">
+            </select>
+        </div>
+        <br />
+        <div>
+            <label>Cities</label>
+            <select class="form-control" asp-for="City" asp-items="@(new SelectList(Model.Cities, "Name", "Name"))">
+            </select>
+        </div>
+        <br />
+        <div>
+            <input type="submit" value="Search" />
+        </div>
+    </fieldset>
+
+    <h1>Total tax: @Model.Tax.Tax</h1>
+    <br />
+    @if (Model.Tax.Days != null)
+        foreach (var item in Model.Tax.Days)
+        {
+            <h2>Day @item.Day.ToShortDateString() (tax : @item.Tax)</h2>
+            <ul>
+                @if (item.SubGroups != null)
+                    for (int i = 0; i < item.SubGroups.Count; i++)
+                    {
+                        var group = item.SubGroups[i];
+                        <li>
+                            <b>Group @i  (tax @group.Tax)</b>
+                            <ul>
+                                @if (group.Tracings != null)
+                                    foreach (var groupItem in group.Tracings)
+                                    {
+                                        <li>@groupItem.Tracking.CreateDate (tax @(groupItem.TaxRule?.Amount ?? 0))</li>
+                                    }
+                            </ul>
+                        </li>
+                    }
+            </ul>
+
+            <hr />
+        }
+</form>
