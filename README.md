@@ -1,7 +1,7 @@
 # Congestion Tax
 
 # Project List
-1-CongestionTaxService (Service to receive tax roles).
+1-CongestionTaxService (Service to receive tax rules).
 
 2-CongestionTaxCalculator (Tax calculation based on car and city).
 
